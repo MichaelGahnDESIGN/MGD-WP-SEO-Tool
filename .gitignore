@@ -1,0 +1,5 @@
+# Lokale Build-Arbeitsdaten und reproduzierbare Release-Artefakte.
+# Die veröffentlichte ZIP-Datei wird als GitHub-Release-Asset bereitgestellt.
+.tmp/
+releases/
+.DS_Store
