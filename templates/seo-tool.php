@@ -15,7 +15,7 @@ defined( 'ABSPATH' ) || exit;
 	<div class="mgd-seo-tool__intro">
 		<p class="mgd-seo-tool__eyebrow"><?php esc_html_e( 'SEO-Werkzeug', 'mgd-wp-seo-tool' ); ?></p>
 		<h2 id="<?php echo esc_attr( $instance_id ); ?>-title"><?php esc_html_e( 'Google-Snippet prüfen', 'mgd-wp-seo-tool' ); ?></h2>
-		<p><?php esc_html_e( 'Formuliere einen Meta-Titel und eine Meta-Beschreibung. Die Prüfung läuft nur in deinem Browser – es werden keine Eingaben übertragen.', 'mgd-wp-seo-tool' ); ?></p>
+		<p><?php esc_html_e( 'Formuliere einen Meta-Titel und eine Meta-Beschreibung. Die Prüfung läuft in deinem Browser. Nur wenn du Socialdaten lädst, ruft die Website die eingegebene URL ab.', 'mgd-wp-seo-tool' ); ?></p>
 	</div>
 
 	<div class="mgd-seo-tool__grid">
@@ -34,7 +34,11 @@ defined( 'ABSPATH' ) || exit;
 
 			<div class="mgd-seo-tool__field">
 				<label for="<?php echo esc_attr( $instance_id ); ?>-url-input"><?php esc_html_e( 'Vorschau-URL', 'mgd-wp-seo-tool' ); ?></label>
-				<input id="<?php echo esc_attr( $instance_id ); ?>-url-input" class="mgd-seo-tool__input" type="url" inputmode="url" value="<?php echo esc_attr( $default_url ); ?>" placeholder="https://example.de/seite/" data-field="url">
+				<div class="mgd-seo-tool__url-control">
+					<input id="<?php echo esc_attr( $instance_id ); ?>-url-input" class="mgd-seo-tool__input" type="url" inputmode="url" value="<?php echo esc_attr( $default_url ); ?>" placeholder="https://example.de/seite/" data-field="url" aria-describedby="<?php echo esc_attr( $instance_id ); ?>-url-help">
+					<button class="mgd-seo-tool__button mgd-seo-tool__button--compact" type="button" data-action="fetch-social"><?php esc_html_e( 'Socialdaten laden', 'mgd-wp-seo-tool' ); ?></button>
+				</div>
+				<p class="mgd-seo-tool__hint" id="<?php echo esc_attr( $instance_id ); ?>-url-help"><?php esc_html_e( 'Lädt OG-Titel, Beschreibung und Bild nur auf deinen ausdrücklichen Klick. Das Bild wird danach direkt von der Zielseite geladen.', 'mgd-wp-seo-tool' ); ?></p>
 			</div>
 
 			<div class="mgd-seo-tool__field">
@@ -44,6 +48,7 @@ defined( 'ABSPATH' ) || exit;
 
 			<div class="mgd-seo-tool__actions" aria-label="<?php esc_attr_e( 'Werkzeugaktionen', 'mgd-wp-seo-tool' ); ?>">
 				<button class="mgd-seo-tool__button mgd-seo-tool__button--primary" type="button" data-action="copy"><?php esc_html_e( 'Meta-Daten kopieren', 'mgd-wp-seo-tool' ); ?></button>
+				<button class="mgd-seo-tool__button" type="button" data-action="copy-tags"><?php esc_html_e( 'Meta-Tags kopieren', 'mgd-wp-seo-tool' ); ?></button>
 				<button class="mgd-seo-tool__button" type="button" data-action="save"><?php esc_html_e( 'Entwurf lokal speichern', 'mgd-wp-seo-tool' ); ?></button>
 				<button class="mgd-seo-tool__button mgd-seo-tool__button--quiet" type="button" data-action="reset"><?php esc_html_e( 'Zurücksetzen', 'mgd-wp-seo-tool' ); ?></button>
 			</div>
@@ -62,10 +67,14 @@ defined( 'ABSPATH' ) || exit;
 
 			<div class="mgd-seo-tool__preview-card mgd-seo-tool__preview-card--social">
 				<p class="mgd-seo-tool__preview-label"><?php esc_html_e( 'Social-Vorschau', 'mgd-wp-seo-tool' ); ?></p>
-				<div class="mgd-seo-tool__social-placeholder" aria-hidden="true"></div>
+				<div class="mgd-seo-tool__social-media" data-social-media>
+					<div class="mgd-seo-tool__social-placeholder" data-social-placeholder aria-hidden="true"></div>
+					<img class="mgd-seo-tool__social-image" data-social-image alt="" hidden>
+				</div>
 				<p class="mgd-seo-tool__social-domain" data-social-domain><?php echo esc_html( wp_parse_url( $default_url, PHP_URL_HOST ) ?: $default_url ); ?></p>
 				<p class="mgd-seo-tool__social-title" data-social-title><?php esc_html_e( 'Dein Seitentitel erscheint hier', 'mgd-wp-seo-tool' ); ?></p>
 				<p class="mgd-seo-tool__social-description" data-social-description><?php esc_html_e( 'Die Beschreibung wird für eine Vorschau in sozialen Netzwerken übernommen.', 'mgd-wp-seo-tool' ); ?></p>
+				<button class="mgd-seo-tool__button mgd-seo-tool__button--compact mgd-seo-tool__social-apply" type="button" data-action="apply-social" disabled><?php esc_html_e( 'OG-Daten übernehmen', 'mgd-wp-seo-tool' ); ?></button>
 			</div>
 
 			<ul class="mgd-seo-tool__checks" data-checks aria-live="polite"></ul>

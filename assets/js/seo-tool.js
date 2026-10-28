@@ -1,26 +1,43 @@
 /**
- * Interaktive, vollständig lokale Bedienlogik des MGD WP-SEO-Tools.
+ * Interaktive Bedienlogik des MGD WP-SEO-Tools.
  *
- * Es gibt bewusst keine Netzwerkzugriffe. Entwürfe werden nur nach einem
- * ausdrücklichen Klick im localStorage des aktuellen Browsers gespeichert.
+ * Entwürfe bleiben lokal. Nur die Aktion „Socialdaten laden“ sendet die
+ * eingegebene HTTPS-URL an die eigene WordPress-Installation, damit diese
+ * ausgewählte Open-Graph-Angaben sicher abrufen kann.
  */
 ( () => {
 	'use strict';
 
 	const STORAGE_PREFIX = 'mgd-wp-seo-tool:';
+	const SOCIAL_CONFIG = window.mgdSeoToolConfig || {};
 	const FALLBACK = {
 		title: 'Dein Seitentitel erscheint hier',
 		description: 'Deine Meta-Beschreibung erscheint hier als kurze Zusammenfassung der Seite.',
 		socialDescription: 'Die Beschreibung wird für eine Vorschau in sozialen Netzwerken übernommen.',
 	};
 
-	/** Gibt eine nutzbare Domain zurück, ohne unsicheren HTML-Inhalt einzufügen. */
+	/** Gibt eine nutzbare Domain zurück, ohne fremden HTML-Inhalt einzufügen. */
 	function getDomain( url ) {
 		try {
 			return new URL( url ).hostname.replace( /^www\./, '' ) || url;
 		} catch ( error ) {
 			return url.replace( /^https?:\/\//, '' ).split( '/' )[ 0 ] || 'deine-domain.de';
 		}
+	}
+
+	/** Prüft die lokale URL vor dem bewussten Social-Abruf. */
+	function isPublicHttpsUrl( value ) {
+		try {
+			const url = new URL( value );
+			return url.protocol === 'https:' && ! url.username && ! url.password && ( ! url.port || url.port === '443' );
+		} catch ( error ) {
+			return false;
+		}
+	}
+
+	/** Erzeugt HTML-Meta-Tags mit escaped Attributwerten für die Zwischenablage. */
+	function escapeAttribute( value ) {
+		return value.replace( /&/g, '&amp;' ).replace( /"/g, '&quot;' ).replace( /</g, '&lt;' ).replace( />/g, '&gt;' );
 	}
 
 	/** Prüft Textlängen als Orientierung, ohne ein Google-Ranking zu versprechen. */
@@ -60,9 +77,14 @@
 			domain: root.querySelector( '[data-social-domain]' ),
 			socialTitle: root.querySelector( '[data-social-title]' ),
 			socialDescription: root.querySelector( '[data-social-description]' ),
+			socialImage: root.querySelector( '[data-social-image]' ),
+			socialPlaceholder: root.querySelector( '[data-social-placeholder]' ),
+			applySocial: root.querySelector( '[data-action="apply-social"]' ),
+			fetchSocial: root.querySelector( '[data-action="fetch-social"]' ),
 			checks: root.querySelector( '[data-checks]' ),
 			status: root.querySelector( '[data-status]' ),
 		};
+		let socialData = null;
 
 		function fields() {
 			return Object.fromEntries( Object.entries( inputs ).map( ( [ name, input ] ) => [ name, input.value.trim() ] ) );
@@ -70,6 +92,13 @@
 
 		function setStatus( message ) {
 			output.status.textContent = message;
+		}
+
+		function clearSocialImage() {
+			output.socialImage.removeAttribute( 'src' );
+			output.socialImage.alt = '';
+			output.socialImage.hidden = true;
+			output.socialPlaceholder.hidden = false;
 		}
 
 		function update() {
@@ -80,8 +109,8 @@
 			output.title.textContent = values.title || FALLBACK.title;
 			output.description.textContent = values.description || FALLBACK.description;
 			output.domain.textContent = getDomain( values.url || root.dataset.defaultUrl );
-			output.socialTitle.textContent = values.title || FALLBACK.title;
-			output.socialDescription.textContent = values.description || FALLBACK.socialDescription;
+			output.socialTitle.textContent = socialData?.title || values.title || FALLBACK.title;
+			output.socialDescription.textContent = socialData?.description || values.description || FALLBACK.socialDescription;
 			output.checks.replaceChildren( ...makeChecks( values ).map( ( [ state, message ] ) => {
 				const item = document.createElement( 'li' );
 				item.className = `mgd-seo-tool__check mgd-seo-tool__check--${ state }`;
@@ -90,15 +119,94 @@
 			} ) );
 		}
 
-		async function copyMetadata() {
-			const values = fields();
-			const plainText = `Meta-Titel: ${ values.title }\nMeta-Beschreibung: ${ values.description }\nURL: ${ values.url }`;
+		async function copyText( text, successMessage ) {
 			try {
-				await navigator.clipboard.writeText( plainText );
-				setStatus( 'Meta-Daten wurden in die Zwischenablage kopiert.' );
+				await navigator.clipboard.writeText( text );
+				setStatus( successMessage );
 			} catch ( error ) {
-				setStatus( 'Kopieren war in diesem Browser nicht möglich. Bitte Text manuell markieren.' );
+				setStatus( 'Kopieren war in diesem Browser nicht möglich. Bitte den Text manuell markieren.' );
 			}
+		}
+
+		function copyMetadata() {
+			const values = fields();
+			return copyText( `Meta-Titel: ${ values.title }\nMeta-Beschreibung: ${ values.description }\nURL: ${ values.url }`, 'Meta-Daten wurden in die Zwischenablage kopiert.' );
+		}
+
+		function copyTags() {
+			const values = fields();
+			const lines = [
+				`<title>${ escapeAttribute( values.title ) }</title>`,
+				`<meta name="description" content="${ escapeAttribute( values.description ) }">`,
+				`<meta property="og:title" content="${ escapeAttribute( socialData?.title || values.title ) }">`,
+				`<meta property="og:description" content="${ escapeAttribute( socialData?.description || values.description ) }">`,
+				`<meta property="og:url" content="${ escapeAttribute( values.url ) }">`,
+			];
+			if ( socialData?.image ) lines.push( `<meta property="og:image" content="${ escapeAttribute( socialData.image ) }">` );
+
+			return copyText( lines.join( '\n' ), 'Meta-Tags wurden in die Zwischenablage kopiert.' );
+		}
+
+		async function fetchSocialData() {
+			const values = fields();
+			if ( ! isPublicHttpsUrl( values.url ) ) {
+				setStatus( 'Bitte gib eine öffentliche HTTPS-URL ohne Anmeldung oder Sonderport ein.' );
+				inputs.url.focus();
+				return;
+			}
+			if ( ! SOCIAL_CONFIG.ajaxUrl || ! SOCIAL_CONFIG.socialNonce ) {
+				setStatus( 'Die Social-Vorschau ist momentan nicht verfügbar. Bitte lade die Seite neu.' );
+				return;
+			}
+
+			output.fetchSocial.disabled = true;
+			output.fetchSocial.setAttribute( 'aria-busy', 'true' );
+			setStatus( 'Socialdaten werden geladen …' );
+
+			try {
+				const response = await window.fetch( SOCIAL_CONFIG.ajaxUrl, {
+					method: 'POST',
+					credentials: 'same-origin',
+					headers: { 'Content-Type': 'application/x-www-form-urlencoded; charset=UTF-8' },
+					body: new URLSearchParams( { action: 'mgd_wp_seo_fetch_social_preview', nonce: SOCIAL_CONFIG.socialNonce, url: values.url } ),
+				} );
+				const result = await response.json();
+				if ( ! response.ok || ! result.success || ! result.data ) throw new Error( result?.data?.message || 'Socialdaten konnten nicht geladen werden.' );
+
+				socialData = {
+					title: typeof result.data.title === 'string' ? result.data.title : '',
+					description: typeof result.data.description === 'string' ? result.data.description : '',
+					image: typeof result.data.image === 'string' ? result.data.image : '',
+				};
+				if ( socialData.image ) {
+					output.socialImage.src = socialData.image;
+					output.socialImage.alt = `Social-Vorschaubild von ${ getDomain( values.url ) }`;
+					output.socialImage.hidden = false;
+					output.socialPlaceholder.hidden = true;
+				} else {
+					clearSocialImage();
+				}
+				output.applySocial.disabled = ! socialData.title && ! socialData.description;
+				update();
+				setStatus( socialData.image ? 'Socialdaten inklusive OG-Bild wurden geladen.' : 'Socialdaten wurden geladen. Die Zielseite liefert kein öffentliches OG-Bild.' );
+			} catch ( error ) {
+				socialData = null;
+				clearSocialImage();
+				output.applySocial.disabled = true;
+				update();
+				setStatus( error instanceof Error ? error.message : 'Socialdaten konnten nicht geladen werden.' );
+			} finally {
+				output.fetchSocial.disabled = false;
+				output.fetchSocial.removeAttribute( 'aria-busy' );
+			}
+		}
+
+		function applySocialData() {
+			if ( ! socialData ) return;
+			if ( socialData.title ) inputs.title.value = socialData.title;
+			if ( socialData.description ) inputs.description.value = socialData.description;
+			update();
+			setStatus( 'OG-Titel und OG-Beschreibung wurden in den Entwurf übernommen.' );
 		}
 
 		function saveDraft() {
@@ -112,6 +220,9 @@
 
 		function reset() {
 			Object.values( inputs ).forEach( ( input ) => { input.value = input.dataset.field === 'url' ? root.dataset.defaultUrl : ''; } );
+			socialData = null;
+			clearSocialImage();
+			output.applySocial.disabled = true;
 			try {
 				window.localStorage.removeItem( key );
 			} catch ( error ) {
@@ -133,10 +244,25 @@
 			// Eine defekte lokale Speicherung darf das Tool nicht blockieren.
 		}
 
-		Object.values( inputs ).forEach( ( input ) => input.addEventListener( 'input', update ) );
+		Object.values( inputs ).forEach( ( input ) => input.addEventListener( 'input', () => {
+			if ( input.dataset.field === 'url' && socialData ) {
+				socialData = null;
+				clearSocialImage();
+				output.applySocial.disabled = true;
+			}
+			update();
+		} ) );
+		output.socialImage.addEventListener( 'error', () => {
+			clearSocialImage();
+			setStatus( 'Das OG-Bild konnte im Browser nicht dargestellt werden.' );
+		} );
 		root.querySelector( '[data-action="copy"]' ).addEventListener( 'click', copyMetadata );
+		root.querySelector( '[data-action="copy-tags"]' ).addEventListener( 'click', copyTags );
+		output.fetchSocial.addEventListener( 'click', fetchSocialData );
+		output.applySocial.addEventListener( 'click', applySocialData );
 		root.querySelector( '[data-action="save"]' ).addEventListener( 'click', saveDraft );
 		root.querySelector( '[data-action="reset"]' ).addEventListener( 'click', reset );
+		clearSocialImage();
 		update();
 	}
 

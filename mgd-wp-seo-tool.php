@@ -3,7 +3,7 @@
  * Plugin Name: MGD WP-SEO-Tool
  * Plugin URI: https://github.com/MichaelGahnDESIGN/MGD-WP-SEO-Tool
  * Description: Ein datensparsames Werkzeug für Meta-Titel, Meta-Beschreibungen und Suchvorschauen – direkt innerhalb von WordPress nutzbar.
- * Version: 0.1.0
+ * Version: 0.1.1
  * Requires at least: 6.5
  * Requires PHP: 8.1
  * Author: Michael Gahn DESIGN
@@ -11,18 +11,19 @@
  * Text Domain: mgd-wp-seo-tool
  * Update URI: https://github.com/MichaelGahnDESIGN/MGD-WP-SEO-Tool
  *
- * Das Plugin verarbeitet Eingaben ausschließlich im Browser. Es speichert
- * keine Daten auf dem Server und ruft keine externen Dienste auf.
+ * Das Plugin verarbeitet Eingaben ausschließlich im Browser. Nur der bewusst
+ * ausgelöste Social-Abruf fragt die eingegebene öffentliche HTTPS-URL ab.
  */
 
 defined( 'ABSPATH' ) || exit;
 
-define( 'MGD_WP_SEO_TOOL_VERSION', '0.1.0' );
+define( 'MGD_WP_SEO_TOOL_VERSION', '0.1.1' );
 define( 'MGD_WP_SEO_TOOL_FILE', __FILE__ );
 define( 'MGD_WP_SEO_TOOL_DIR', plugin_dir_path( __FILE__ ) );
 define( 'MGD_WP_SEO_TOOL_URL', plugin_dir_url( __FILE__ ) );
 
 require_once MGD_WP_SEO_TOOL_DIR . 'includes/class-mgd-wp-seo-tool.php';
+require_once MGD_WP_SEO_TOOL_DIR . 'includes/class-mgd-wp-seo-social-fetcher.php';
 require_once MGD_WP_SEO_TOOL_DIR . 'includes/class-mgd-plugin-admin-tools.php';
 
 MGD_WP_SEO_Tool::instance();

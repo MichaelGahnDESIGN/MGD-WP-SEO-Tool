@@ -5,11 +5,14 @@ Ein eigenständiges, datensparsames WordPress-Plugin für einen Meta-Titel-/Meta
 ## Funktionen
 
 - Google- und Social-Vorschau mit frei wählbarer Vorschau-URL
+- bewusster Social-Abruf: OG-Titel, OG-Beschreibung und `og:image` einer öffentlichen HTTPS-URL anzeigen
+- OG-Titel und -Beschreibung bei Bedarf in den Entwurf übernehmen
+- kopierbarer HTML-Meta-Block inklusive Open-Graph-Tags
 - Zeichenrichtwerte sowie optionale Fokus-Keyword-Prüfung
 - Kopieren der vorbereiteten Meta-Daten
 - optionaler, ausschließlich lokaler Entwurf im Browser
 - zugängliche Formulare und Statusmeldungen
-- keine Datenbanktabellen, keine AJAX-Endpunkte, keine externen Dienste oder Tracker
+- keine Datenbanktabellen und keine Tracker
 
 ## Installation
 
@@ -29,7 +32,11 @@ Ein eigenständiges, datensparsames WordPress-Plugin für einen Meta-Titel-/Meta
 
 ## Datenschutz und Grenzen
 
-Alle Eingaben werden im Browser verarbeitet. Erst über den Button **„Entwurf lokal speichern“** schreibt das Tool die Werte in den Local Storage dieses Browsers; **„Zurücksetzen“** entfernt sie wieder.
+Alle Texteingaben werden im Browser verarbeitet. Erst über den Button **„Entwurf lokal speichern“** schreibt das Tool die Werte in den Local Storage dieses Browsers; **„Zurücksetzen“** entfernt sie wieder.
+
+Die Funktion **„Socialdaten laden“** ist ein bewusster, optionaler Abruf: Sie sendet nur die eingegebene öffentliche HTTPS-URL an die WordPress-Installation. Diese liest daraus ausschließlich OG-Titel, OG-Beschreibung und `og:image`; weder der HTML-Inhalt noch Formulareingaben werden gespeichert oder an den Browser zurückgegeben. Das angezeigte OG-Bild lädt der Browser anschließend direkt von der Zielseite. Dabei erhält die Zielseite die IP-Adresse des Besuchers – genau wie bei einem gewöhnlich eingebundenen Bild.
+
+Zum Schutz der WordPress-Installation sind nur öffentliche HTTPS-Ziele ohne Anmeldung und ohne Sonderport zugelassen. Interne, private und reservierte DNS-Adressen, Weiterleitungen sowie zu große oder nicht als HTML deklarierte Antworten werden abgewiesen. Abrufe sind pro Besucher kurzzeitig begrenzt und Ergebnisse für dieselbe URL werden für zwölf Stunden zwischengespeichert.
 
 Die Längen-Hinweise sind lediglich Darstellungsrichtwerte. Suchmaschinen bestimmen die endgültige Anzeige dynamisch; das Tool verspricht deshalb weder Platzierung noch eine unveränderte Snippet-Ausgabe.
 

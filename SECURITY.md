@@ -16,10 +16,27 @@ Das Plugin fragt nur die öffentliche HTTPS-Release-API von
 Bei einem Netzwerk-, Format- oder Validierungsfehler wird kein Update angeboten;
 die installierte Version bleibt unverändert.
 
+## Social-Vorschau und SSRF-Schutz
+
+Der optionale AJAX-Endpunkt für **„Socialdaten laden“** akzeptiert ausschließlich
+öffentliche HTTPS-URLs ohne Login-Daten oder Sonderport. Vor dem Abruf prüft das
+Plugin Hostname und A-/AAAA-DNS-Ergebnisse auf private und reservierte Bereiche.
+Der Abruf folgt keinen Weiterleitungen, ist auf sechs Sekunden und 256 KiB HTML
+begrenzt und gibt niemals fremdes HTML zurück. Er extrahiert nur kurze,
+bereinigte Textwerte sowie eine valide öffentliche HTTPS-`og:image`-URL.
+
+Ein kurzlebiges Rate-Limit speichert ausschließlich einen mit WordPress-Salz
+abgeleiteten Schlüssel – keine IP-Adresse. Ergebnisse werden je URL zwölf Stunden
+zwischengespeichert. Ein DNS-Rebinding zwischen Vorprüfung und HTTP-Verbindung
+bleibt eine Infrastrukturabhängigkeit des Webservers; `wp_safe_remote_get()` und
+`reject_unsafe_urls` sind deshalb zusätzlich aktiv.
+
 ## Datenschutz
 
 Meta-Daten werden im Browser verarbeitet. Eine Speicherung erfolgt nur nach
 einem bewussten Klick im lokalen Browser-Speicher und kann über „Zurücksetzen“
-entfernt werden. Die Updateprüfung übermittelt keine Tool-Inhalte und keine
-Anmeldedaten; wie bei jedem Abruf eines GitHub-Releases erhält GitHub die
-Server-IP der Website.
+entfernt werden. Die Social-Vorschau übermittelt nur die bewusst eingegebene URL
+an den Server; die Zielseite erhält dessen Server-IP. Wird ein OG-Bild dargestellt,
+lädt der Browser es direkt von der Zielseite; diese sieht dann die Besucher-IP.
+Die Updateprüfung übermittelt keine Tool-Inhalte und keine Anmeldedaten; wie bei
+jedem Abruf eines GitHub-Releases erhält GitHub die Server-IP der Website.

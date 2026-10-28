@@ -31,6 +31,7 @@ final class MGD_WP_SEO_Tool {
 	private function __construct() {
 		add_action( 'init', array( $this, 'load_textdomain' ) );
 		add_shortcode( 'mgd_wp_seo_tool', array( $this, 'render_shortcode' ) );
+		MGD_WP_SEO_Social_Fetcher::instance();
 	}
 
 	/**
@@ -62,6 +63,15 @@ final class MGD_WP_SEO_Tool {
 			array(),
 			MGD_WP_SEO_TOOL_VERSION,
 			true
+		);
+
+		wp_localize_script(
+			'mgd-wp-seo-tool',
+			'mgdSeoToolConfig',
+			array(
+				'ajaxUrl'     => admin_url( 'admin-ajax.php' ),
+				'socialNonce' => wp_create_nonce( 'mgd_wp_seo_social_preview' ),
+			)
 		);
 	}
 
