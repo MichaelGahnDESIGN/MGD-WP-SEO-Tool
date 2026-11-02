@@ -28,6 +28,11 @@ rsync -a \
   --exclude 'tools/' \
   --exclude 'tests/' \
   --exclude 'docs/' \
+  --exclude 'PLAYTEST/' \
+  --exclude 'PlayTest/' \
+  --exclude 'BACKUPS/' \
+  --exclude '.playwright-cli/' \
+  --exclude '.env*' \
   "$project_dir/" "$work_dir/$plugin_slug/"
 
 rm -f "$package" "$package.sha256"

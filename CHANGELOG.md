@@ -41,3 +41,6 @@
 - Lokaler JSON-LD-Generator für Organisationen, lokale Unternehmen und Artikel.
 - Kampagnenlink-Generator mit UTM-Parametern; vorhandene Parameter und Anker bleiben erhalten.
 - Ergebnisse werden nach Änderungen an den Eingaben zurückgesetzt, um veralteten Code zu vermeiden.
+# 0.3.1
+
+- Release-Paketierung schließt lokale Playtests, Backups und Umgebungsdateien aus.
