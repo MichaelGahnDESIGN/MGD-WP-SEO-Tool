@@ -13,7 +13,6 @@ defined( 'ABSPATH' ) || exit;
 ?>
 <section class="mgd-seo-tool" id="<?php echo esc_attr( $instance_id ); ?>" data-default-url="<?php echo esc_attr( $default_url ); ?>" aria-labelledby="<?php echo esc_attr( $instance_id ); ?>-title">
 	<div class="mgd-seo-tool__intro">
-		<p class="mgd-seo-tool__eyebrow"><?php esc_html_e( 'SEO-Werkzeug', 'mgd-wp-seo-tool' ); ?></p>
 		<h2 id="<?php echo esc_attr( $instance_id ); ?>-title"><?php esc_html_e( 'SEO-Werkzeuge', 'mgd-wp-seo-tool' ); ?></h2>
 		<p><?php esc_html_e( 'Prüfen, optimieren und teilen – wähle das passende Werkzeug.', 'mgd-wp-seo-tool' ); ?></p>
 	</div>
@@ -28,15 +27,15 @@ defined( 'ABSPATH' ) || exit;
 	<div class="mgd-seo-tool__grid" data-panel="snippet" id="<?php echo esc_attr( $instance_id ); ?>-panel-snippet" role="tabpanel" aria-labelledby="<?php echo esc_attr( $instance_id ); ?>-tab-snippet">
 		<div class="mgd-seo-tool__editor">
 			<div class="mgd-seo-tool__field">
-				<label for="<?php echo esc_attr( $instance_id ); ?>-title-input"><?php esc_html_e( 'Meta-Titel', 'mgd-wp-seo-tool' ); ?></label>
+				<div class="mgd-seo-tool__label-row"><label for="<?php echo esc_attr( $instance_id ); ?>-title-input"><?php esc_html_e( 'Meta-Titel', 'mgd-wp-seo-tool' ); ?></label><button type="button" class="mgd-seo-tool__info" data-info-open="title" aria-label="Tipps zum Meta-Titel">i</button></div>
 				<input id="<?php echo esc_attr( $instance_id ); ?>-title-input" class="mgd-seo-tool__input" type="text" maxlength="120" autocomplete="off" placeholder="z. B. Webdesign aus Plauen – Michael Gahn DESIGN" data-field="title" aria-describedby="<?php echo esc_attr( $instance_id ); ?>-title-help">
-				<p class="mgd-seo-tool__hint" id="<?php echo esc_attr( $instance_id ); ?>-title-help"><span data-title-count>0</span> <?php esc_html_e( 'Zeichen · Richtwert: etwa 50–60 Zeichen', 'mgd-wp-seo-tool' ); ?></p>
+				<p class="mgd-seo-tool__hint" id="<?php echo esc_attr( $instance_id ); ?>-title-help"><span data-title-count>0</span> / 60 Zeichen als Orientierung · Eingabelimit: 120</p>
 			</div>
 
 			<div class="mgd-seo-tool__field">
-				<label for="<?php echo esc_attr( $instance_id ); ?>-description-input"><?php esc_html_e( 'Meta-Beschreibung', 'mgd-wp-seo-tool' ); ?></label>
+				<div class="mgd-seo-tool__label-row"><label for="<?php echo esc_attr( $instance_id ); ?>-description-input"><?php esc_html_e( 'Meta-Beschreibung', 'mgd-wp-seo-tool' ); ?></label><button type="button" class="mgd-seo-tool__info" data-info-open="description" aria-label="Tipps zur Meta-Beschreibung">i</button></div>
 				<textarea id="<?php echo esc_attr( $instance_id ); ?>-description-input" class="mgd-seo-tool__input" rows="5" maxlength="320" placeholder="Beschreibe den Nutzen der Seite in einem klaren, einladenden Satz." data-field="description" aria-describedby="<?php echo esc_attr( $instance_id ); ?>-description-help"></textarea>
-				<p class="mgd-seo-tool__hint" id="<?php echo esc_attr( $instance_id ); ?>-description-help"><span data-description-count>0</span> <?php esc_html_e( 'Zeichen · Richtwert: etwa 140–160 Zeichen', 'mgd-wp-seo-tool' ); ?></p>
+				<p class="mgd-seo-tool__hint" id="<?php echo esc_attr( $instance_id ); ?>-description-help"><span data-description-count>0</span> / 160 Zeichen als Orientierung · Eingabelimit: 320</p>
 			</div>
 
 			<div class="mgd-seo-tool__field">
@@ -49,7 +48,7 @@ defined( 'ABSPATH' ) || exit;
 			</div>
 
 			<div class="mgd-seo-tool__field">
-				<label for="<?php echo esc_attr( $instance_id ); ?>-keyword-input"><?php esc_html_e( 'Fokus-Keyword (optional)', 'mgd-wp-seo-tool' ); ?></label>
+				<div class="mgd-seo-tool__label-row"><label for="<?php echo esc_attr( $instance_id ); ?>-keyword-input"><?php esc_html_e( 'Fokus-Keyword (optional)', 'mgd-wp-seo-tool' ); ?></label><button type="button" class="mgd-seo-tool__info" data-info-open="keyword" aria-label="Tipps zum Fokus-Keyword">i</button></div>
 				<input id="<?php echo esc_attr( $instance_id ); ?>-keyword-input" class="mgd-seo-tool__input" type="text" autocomplete="off" placeholder="z. B. Webdesign Plauen" data-field="keyword">
 			</div>
 
@@ -87,6 +86,11 @@ defined( 'ABSPATH' ) || exit;
 			<ul class="mgd-seo-tool__checks" data-checks aria-live="polite"></ul>
 		</div>
 	</div>
+	<dialog class="mgd-seo-tool__dialog" data-info-dialog aria-labelledby="<?php echo esc_attr( $instance_id ); ?>-info-title">
+		<div class="mgd-seo-tool__dialog-head"><h3 id="<?php echo esc_attr( $instance_id ); ?>-info-title" data-info-title></h3><button type="button" class="mgd-seo-tool__dialog-close" data-info-close aria-label="Hinweis schließen">×</button></div>
+		<div data-info-body></div>
+		<button type="button" class="mgd-seo-tool__button" data-info-close>Verstanden</button>
+	</dialog>
 	<?php foreach ( array_slice( $tabs, 1, null, true ) as $tab => $label ) : ?>
 	<section class="mgd-seo-tool__panel" data-panel="<?php echo esc_attr( $tab ); ?>" id="<?php echo esc_attr( $instance_id . '-panel-' . $tab ); ?>" role="tabpanel" aria-labelledby="<?php echo esc_attr( $instance_id . '-tab-' . $tab ); ?>" hidden>
 		<h3><?php echo esc_html( $label ); ?></h3>

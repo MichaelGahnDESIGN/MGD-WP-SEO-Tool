@@ -13,6 +13,17 @@
 .mgd-seo-tool__field label { display: block; font-weight: 700; margin-bottom: .45rem; }
 .mgd-seo-tool__input { background: #fff; border: 1px solid #b9c5d5; border-radius: 10px; box-sizing: border-box; color: var(--mgd-seo-ink); font: inherit; min-height: 46px; padding: .75rem .85rem; width: 100%; }
 .mgd-seo-tool__input:focus { border-color: var(--mgd-seo-primary); box-shadow: 0 0 0 3px rgb(29 53 87 / 18%); outline: 0; }
+.mgd-seo-tool .mgd-seo-tool__input--over, .mgd-seo-tool .mgd-seo-tool__input--over:focus { border: 2px solid #b91c1c; box-shadow: 0 0 0 2px rgb(185 28 28 / 15%); }
+.mgd-seo-tool__label-row { display: flex; align-items: center; gap: .5rem; margin-bottom: .45rem; }
+.mgd-seo-tool__label-row label { margin: 0; }
+.mgd-seo-tool__info { border: 1px solid #68778a; border-radius: 50%; background: #fff; color: #25364a; cursor: pointer; font: 700 .85rem/1 system-ui, sans-serif; width: 1.6rem; height: 1.6rem; }
+.mgd-seo-tool__info:focus-visible, .mgd-seo-tool__dialog-close:focus-visible { outline: 3px solid #2373b9; outline-offset: 3px; }
+.mgd-seo-tool__dialog { box-sizing: border-box; width: min(36rem, calc(100% - 2rem)); max-height: 85vh; overflow: auto; border: 1px solid #d8dfe6; border-radius: 12px; padding: 1.5rem; color: #18212d; background: #fff; box-shadow: 0 16px 48px rgb(0 0 0 / 25%); }
+.mgd-seo-tool__dialog::backdrop { background: rgb(0 0 0 / 55%); }
+.mgd-seo-tool__dialog-head { display: flex; justify-content: space-between; align-items: center; gap: 1rem; }
+.mgd-seo-tool__dialog-head h3 { margin: 0; }
+.mgd-seo-tool__dialog-close { border: 0; background: transparent; cursor: pointer; font-size: 1.8rem; line-height: 1; width: 44px; height: 44px; }
+.mgd-seo-tool__dialog a { display: inline-block; margin-bottom: 1rem; }
 .mgd-seo-tool textarea.mgd-seo-tool__input { min-height: 120px; resize: vertical; }
 .mgd-seo-tool__hint { color: var(--mgd-seo-muted); font-size: .875rem; line-height: 1.45; margin: .4rem 0 0; }
 .mgd-seo-tool__url-control { align-items: stretch; display: grid; gap: .55rem; grid-template-columns: minmax(0, 1fr) auto; }

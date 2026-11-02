@@ -44,3 +44,7 @@
 # 0.3.1
 
 - Release-Paketierung schließt lokale Playtests, Backups und Umgebungsdateien aus.
+# 0.3.2
+
+- Snippet-Felder zeigen Überschreitungen der Richtwerte mit rotem Rahmen und Zähler; die tatsächlichen Eingabelimits bleiben 120 und 320 Zeichen.
+- Infodialoge erklären Titel, Beschreibung und Fokus-Keyword mit Google-Quellen; redundanten kleinen Obertitel entfernt.

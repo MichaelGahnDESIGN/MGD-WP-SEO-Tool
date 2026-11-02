@@ -47,12 +47,8 @@
 		const descriptionLength = fields.description.length;
 		const keyword = fields.keyword.trim().toLocaleLowerCase();
 
-		checks.push( titleLength >= 50 && titleLength <= 60
-			? [ 'good', 'Meta-Titel: gute Länge als Richtwert.' ]
-			: [ 'hint', 'Meta-Titel: für die Darstellung sind etwa 50–60 Zeichen oft günstig.' ] );
-		checks.push( descriptionLength >= 140 && descriptionLength <= 160
-			? [ 'good', 'Meta-Beschreibung: gute Länge als Richtwert.' ]
-			: [ 'hint', 'Meta-Beschreibung: etwa 140–160 Zeichen nutzen den verfügbaren Platz meist gut.' ] );
+		checks.push( ! titleLength ? [ 'hint', 'Trage einen aussagekräftigen Seitentitel ein.' ] : titleLength > 60 ? [ 'hint', 'Der Titel überschreitet den Richtwert und könnte gekürzt werden.' ] : [ 'good', 'Der Titel liegt innerhalb des Zeichen-Richtwerts. Die tatsächliche Breite kann abweichen.' ] );
+		checks.push( ! descriptionLength ? [ 'hint', 'Beschreibe kurz, was Besucher auf der Seite erwartet.' ] : descriptionLength > 160 ? [ 'hint', 'Die Beschreibung überschreitet den Richtwert und könnte gekürzt werden.' ] : [ 'good', 'Die Beschreibung liegt innerhalb des Zeichen-Richtwerts. Google kann andere Texte anzeigen.' ] );
 
 		if ( keyword ) {
 			const inTitle = fields.title.toLocaleLowerCase().includes( keyword );
@@ -86,6 +82,27 @@
 		};
 		let socialData = null;
 		let socialRequest = 0;
+		const dialog = root.querySelector( '[data-info-dialog]' );
+		const info = {
+			title: [ 'Meta-Titel', 'Der Titel beschreibt den Inhalt einer Seite. Formuliere ihn einzigartig, konkret und gut lesbar. Wichtige Begriffe gehören nach vorn, wenn sie natürlich passen. Ein kurzer Markenname kann helfen. Vermeide Wiederholungen und Keyword-Listen.', '60 Zeichen sind ein praktischer Richtwert, keine Google-Grenze. Je nach Zeichenbreite und Gerät kann die Anzeige früher oder später enden. Google kann einen anderen Titel auswählen.', 'https://developers.google.com/search/docs/appearance/title-link?hl=de' ],
+			description: [ 'Meta-Beschreibung', 'Fasse für jede Seite einzigartig zusammen, was Besucher erwartet und welchen Nutzen sie haben. Schreibe verständlich und passend zum tatsächlichen Inhalt. Vermeide allgemeine Werbephrasen und reine Keyword-Listen.', '160 Zeichen sind ein Richtwert, keine feste Google-Grenze. Google kürzt nach verfügbarer Breite und kann stattdessen einen passenden Ausschnitt aus dem Seiteninhalt verwenden.', 'https://developers.google.com/search/docs/appearance/snippet?hl=de' ],
+			keyword: [ 'Fokus-Keyword', 'Das Fokus-Keyword ist eine Arbeitshilfe: Welche Suchanfrage soll die Seite beantworten? Verwende passende Begriffe natürlich in Titel, Überschrift und Inhalt. Wiederhole sie nicht künstlich.', 'Das Feld dient nur der lokalen Prüfung und wird nicht als Meta-Keywords-Tag veröffentlicht. Google verwendet den Meta-Keywords-Tag nicht für die Websuche.', 'https://developers.google.com/search/docs/fundamentals/seo-starter-guide?hl=de' ],
+		};
+		let infoTrigger = null;
+		root.querySelectorAll( '[data-info-open]' ).forEach( button => button.addEventListener( 'click', () => {
+			const [ title, tip, caveat, link ] = info[ button.dataset.infoOpen ];
+			infoTrigger = button;
+			root.querySelector( '[data-info-title]' ).textContent = title;
+			const body = root.querySelector( '[data-info-body]' );
+			const first = document.createElement( 'p' ); first.textContent = tip;
+			const second = document.createElement( 'p' ); second.textContent = caveat;
+			const source = document.createElement( 'a' ); source.href = link; source.target = '_blank'; source.rel = 'noopener noreferrer'; source.textContent = 'Google-Dokumentation öffnen';
+			body.replaceChildren( first, second, source );
+			if ( typeof dialog.showModal === 'function' ) dialog.showModal(); else dialog.setAttribute( 'open', '' );
+			root.querySelector( '[data-info-close]' ).focus();
+		} ) );
+		root.querySelectorAll( '[data-info-close]' ).forEach( button => button.addEventListener( 'click', () => { if ( typeof dialog.close === 'function' ) dialog.close(); else dialog.removeAttribute( 'open' ); } ) );
+		dialog.addEventListener( 'close', () => { if ( infoTrigger ) infoTrigger.focus(); } );
 
 		function fields() {
 			return Object.fromEntries( Object.entries( inputs ).map( ( [ name, input ] ) => [ name, input.value.trim() ] ) );
@@ -103,9 +120,13 @@
 		}
 
 		function update() {
+			// Auch übernommene OG-Daten und programmatisch gesetzte Werte respektieren das Eingabelimit.
+			[ inputs.title, inputs.description ].forEach( input => { if ( input.maxLength >= 0 && input.value.length > input.maxLength ) input.value = input.value.slice( 0, input.maxLength ); } );
 			const values = fields();
-			output.titleCount.textContent = String( values.title.length );
-			output.descriptionCount.textContent = String( values.description.length );
+			output.titleCount.textContent = String( inputs.title.value.length );
+			output.descriptionCount.textContent = String( inputs.description.value.length );
+			inputs.title.classList.toggle( 'mgd-seo-tool__input--over', inputs.title.value.length > 60 );
+			inputs.description.classList.toggle( 'mgd-seo-tool__input--over', inputs.description.value.length > 160 );
 			output.url.textContent = values.url || root.dataset.defaultUrl;
 			output.title.textContent = values.title || FALLBACK.title;
 			output.description.textContent = values.description || FALLBACK.description;
