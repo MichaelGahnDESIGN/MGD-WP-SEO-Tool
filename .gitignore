@@ -3,3 +3,11 @@
 .tmp/
 releases/
 .DS_Store
+PLAYTEST/
+PlayTest/
+BACKUPS/
+*.sql.gz
+*.dump
+.env*
+!.env.example
+.playwright-cli/

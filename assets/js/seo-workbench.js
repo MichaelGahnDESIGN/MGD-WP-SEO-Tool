@@ -7,10 +7,13 @@
 		const outputs = [ ...root.querySelectorAll( '[data-audit-output]' ) ];
 		const buttons = [ ...root.querySelectorAll( '[data-action="analyze"]' ) ];
 		const urlInput = root.querySelector( '[data-field="url"]' );
+		let auditRequest = 0;
 		root.querySelector( '[data-shared-url]' ).append( urlInput.closest( '.mgd-seo-tool__field' ) );
 		root.querySelector( '[data-shared-url]' ).append( root.querySelector( '[data-status]' ) );
 		root.querySelector( '[role="tablist"]' ).hidden = false;
+		root.querySelector( '[data-social-slot]' ).append( root.querySelector( '[data-action="fetch-social"]' ) );
 		root.querySelector( '[data-social-slot]' ).append( root.querySelector( '.mgd-seo-tool__preview-card--social' ) );
+		root.querySelector( '[data-campaign-slot]' ).append( root.querySelector( '[data-utm-generator]' ) );
 
 		function activate( tab ) {
 			tabs.forEach( item => { item.setAttribute( 'aria-selected', String( item === tab ) ); item.tabIndex = item === tab ? 0 : -1; } );
@@ -71,6 +74,7 @@
 		}
 		async function analyze() {
 			const url = urlInput.value.trim();
+			const request = ++auditRequest;
 			let parsed;
 			try { parsed = new URL( url ); } catch { outputs.forEach( el => { el.textContent = 'Bitte oben eine gültige HTTPS-URL eintragen.'; } ); urlInput.focus(); return; }
 			if ( parsed.protocol !== 'https:' || parsed.username || parsed.password || ( parsed.port && parsed.port !== '443' ) ) {
@@ -82,13 +86,16 @@
 				const config = window.mgdSeoToolConfig || {};
 				const response = await fetch( config.ajaxUrl, { method: 'POST', credentials: 'same-origin', headers: { 'Content-Type': 'application/x-www-form-urlencoded;charset=UTF-8' }, body: new URLSearchParams( { action: 'mgd_wp_seo_fetch_social_preview', nonce: config.socialNonce, url } ) } );
 				const result = await response.json();
+				if ( request !== auditRequest ) return;
 				if ( ! response.ok || ! result.success || ! result.data?.audit?.available ) throw new Error( result.data?.message || 'Die HTML-Analyse ist auf diesem Server nicht verfügbar.' );
 				if ( url !== urlInput.value.trim() ) throw new Error( 'Die URL wurde inzwischen geändert. Bitte erneut analysieren.' );
 				showAudit( result.data.audit, url );
-			} catch ( error ) { outputs.forEach( el => { el.textContent = error.message || 'Analyse fehlgeschlagen.'; } ); }
-			finally { buttons.forEach( button => { button.disabled = false; } ); outputs.forEach( el => el.removeAttribute( 'aria-busy' ) ); }
+			} catch ( error ) { if ( request === auditRequest ) outputs.forEach( el => { el.textContent = error.message || 'Analyse fehlgeschlagen.'; } ); }
+			finally { if ( request === auditRequest ) { buttons.forEach( button => { button.disabled = false; } ); outputs.forEach( el => el.removeAttribute( 'aria-busy' ) ); } }
 		}
 		buttons.forEach( button => button.addEventListener( 'click', analyze ) );
-		urlInput.addEventListener( 'input', () => outputs.forEach( el => { el.textContent = 'URL geändert. Bitte erneut analysieren.'; } ) );
+		function invalidateAudit( message ) { ++auditRequest; buttons.forEach( button => { button.disabled = false; } ); outputs.forEach( el => { el.removeAttribute( 'aria-busy' ); el.textContent = message; } ); }
+		urlInput.addEventListener( 'input', () => invalidateAudit( 'URL geändert. Bitte erneut analysieren.' ) );
+		root.addEventListener( 'mgd-seo-reset', () => invalidateAudit( 'Eingaben zurückgesetzt. Starte eine neue Analyse.' ) );
 	} ) );
 } )();

@@ -85,6 +85,7 @@
 			status: root.querySelector( '[data-status]' ),
 		};
 		let socialData = null;
+		let socialRequest = 0;
 
 		function fields() {
 			return Object.fromEntries( Object.entries( inputs ).map( ( [ name, input ] ) => [ name, input.value.trim() ] ) );
@@ -149,6 +150,7 @@
 
 		async function fetchSocialData() {
 			const values = fields();
+			const request = ++socialRequest;
 			if ( ! isPublicHttpsUrl( values.url ) ) {
 				setStatus( 'Bitte gib eine öffentliche HTTPS-URL ohne Anmeldung oder Sonderport ein.' );
 				inputs.url.focus();
@@ -171,6 +173,7 @@
 					body: new URLSearchParams( { action: 'mgd_wp_seo_fetch_social_preview', nonce: SOCIAL_CONFIG.socialNonce, url: values.url } ),
 				} );
 				const result = await response.json();
+				if ( request !== socialRequest || values.url !== fields().url ) return;
 				if ( ! response.ok || ! result.success || ! result.data ) throw new Error( result?.data?.message || 'Socialdaten konnten nicht geladen werden.' );
 
 				socialData = {
@@ -190,14 +193,17 @@
 				update();
 				setStatus( socialData.image ? 'Socialdaten inklusive OG-Bild wurden geladen.' : 'Socialdaten wurden geladen. Die Zielseite liefert kein öffentliches OG-Bild.' );
 			} catch ( error ) {
+				if ( request !== socialRequest ) return;
 				socialData = null;
 				clearSocialImage();
 				output.applySocial.disabled = true;
 				update();
 				setStatus( error instanceof Error ? error.message : 'Socialdaten konnten nicht geladen werden.' );
 			} finally {
-				output.fetchSocial.disabled = false;
-				output.fetchSocial.removeAttribute( 'aria-busy' );
+				if ( request === socialRequest ) {
+					output.fetchSocial.disabled = false;
+					output.fetchSocial.removeAttribute( 'aria-busy' );
+				}
 			}
 		}
 
@@ -219,6 +225,9 @@
 		}
 
 		function reset() {
+			++socialRequest;
+			output.fetchSocial.disabled = false;
+			output.fetchSocial.removeAttribute( 'aria-busy' );
 			Object.values( inputs ).forEach( ( input ) => { input.value = input.dataset.field === 'url' ? root.dataset.defaultUrl : ''; } );
 			socialData = null;
 			clearSocialImage();
@@ -229,6 +238,7 @@
 				// Auch bei gesperrtem localStorage bleibt das Zurücksetzen der Felder möglich.
 			}
 			update();
+			root.dispatchEvent( new CustomEvent( 'mgd-seo-reset' ) );
 			setStatus( 'Eingaben und lokaler Entwurf wurden entfernt.' );
 		}
 
@@ -245,7 +255,10 @@
 		}
 
 		Object.values( inputs ).forEach( ( input ) => input.addEventListener( 'input', () => {
-			if ( input.dataset.field === 'url' && socialData ) {
+			if ( input.dataset.field === 'url' ) {
+				++socialRequest;
+				output.fetchSocial.disabled = false;
+				output.fetchSocial.removeAttribute( 'aria-busy' );
 				socialData = null;
 				clearSocialImage();
 				output.applySocial.disabled = true;

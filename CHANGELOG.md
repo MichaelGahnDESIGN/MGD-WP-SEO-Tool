@@ -36,6 +36,8 @@
 - HTML-Obergrenze von 2 MiB, damit auch größere Divi-Seiten vollständig analysiert werden können.
 # 0.3.0
 
+- Überarbeitete Navigation mit eigenem Kampagnenlink-Bereich, kompakter Mobilansicht und Social-Aktion direkt bei der Vorschau.
+- Veraltete Social- und Audit-Antworten nach URL-Wechsel oder Zurücksetzen werden verworfen.
 - Lokaler JSON-LD-Generator für Organisationen, lokale Unternehmen und Artikel.
 - Kampagnenlink-Generator mit UTM-Parametern; vorhandene Parameter und Anker bleiben erhalten.
 - Ergebnisse werden nach Änderungen an den Eingaben zurückgesetzt, um veralteten Code zu vermeiden.

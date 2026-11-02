@@ -76,4 +76,4 @@ Noch auf der Roadmap: plattformspezifische Social-Ansichten und WordPress-weite 
 Lokaler Funktionstest: `php tests/analyzer.php`. Vorschau: PHP-Server starten und `/tools/preview.php` öffnen. Echte AJAX-Abrufe benötigen WordPress; die lokale UI-Vorschau stellt diese nicht bereit.
 # Generatoren ab 0.3.0
 
-Unter „Struktur & Schema“ erzeugen Organisation, lokales Unternehmen und Artikel JSON-LD zum Kopieren. Alle Angaben müssen der tatsächlichen Seite entsprechen; doppelte oder widersprüchliche Markups sind zu vermeiden. Der Generator verändert keine Website und ersetzt keinen Schema- oder Rich-Results-Test. Der Kampagnenlink-Generator ergänzt UTM-Parameter lokal; keine personenbezogenen Daten in URLs eintragen.
+Unter „Struktur & Schema“ erzeugen Organisation, lokales Unternehmen und Artikel JSON-LD zum Kopieren. Alle Angaben müssen der tatsächlichen Seite entsprechen; doppelte oder widersprüchliche Markups sind zu vermeiden. Der Generator verändert keine Website und ersetzt keinen Schema- oder Rich-Results-Test. Der separate Tab „Kampagnenlink“ ergänzt UTM-Parameter lokal; keine personenbezogenen Daten in URLs eintragen.
