@@ -42,6 +42,6 @@ Die Updateprüfung übermittelt keine Tool-Inhalte und keine Anmeldedaten; wie b
 jedem Abruf eines GitHub-Releases erhält GitHub die Server-IP der Website.
 # HTML-Analyse 0.2.0
 
-Der bestehende geschützte Social-Abruf liefert zusätzlich kurze, bereinigte Textwerte und Zähler. Keine Skriptausführung, keine verknüpften Ressourcen. Fremde Werte werden nur über Textknoten ausgegeben. Der zwölfstündige Cache enthält zusätzlich SEO-Metadaten und Überschriften. Antworten an der 256-KiB-Grenze werden abgelehnt. Redirects bleiben gesperrt; die endgültige HTTPS-Adresse ist erforderlich.
+Der bestehende geschützte Social-Abruf liefert zusätzlich kurze, bereinigte Textwerte und Zähler. Keine Skriptausführung, keine verknüpften Ressourcen. Fremde Werte werden nur über Textknoten ausgegeben. Der zwölfstündige Cache enthält zusätzlich SEO-Metadaten und Überschriften. Antworten an der 2-MiB-Grenze werden abgelehnt. Redirects bleiben gesperrt; die endgültige HTTPS-Adresse ist erforderlich.
 
-Gezielte Quellprüfung durchgeführt, kein vollständiges Audit. DNS-/HTTP-Verhalten und AJAX-Integration müssen vor Live-Einsatz in einer WordPress-Testumgebung verifiziert werden.
+Gezielte Quellprüfung durchgeführt, kein vollständiges Audit. Der öffentliche AJAX-Abruf wurde am 03.11.2026 in einer separaten lokalen WordPress-Installation mit der eigenen öffentlichen Website erfolgreich geprüft. Dies ersetzt kein vollständiges Sicherheitsaudit und keine Abnahme auf dem Zielhosting.

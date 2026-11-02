@@ -33,3 +33,4 @@
 - Sechs zugängliche Tabs mit gemeinsamer URL-Leiste und responsiver Oberfläche.
 - HTML-Analyse: Titel, Beschreibung, H1, Sprache, Viewport, Canonical, Robots, JSON-LD-Typen, Bilder und Links.
 - Ablehnung unvollständiger Antworten an der Größenobergrenze.
+- HTML-Obergrenze von 2 MiB, damit auch größere Divi-Seiten vollständig analysiert werden können.

@@ -16,7 +16,7 @@ final class MGD_WP_SEO_Social_Fetcher {
 	private static ?self $instance = null;
 
 	/** Maximale Größe einer abgerufenen HTML-Antwort in Bytes. */
-	private const MAX_RESPONSE_BYTES = 262144;
+	private const MAX_RESPONSE_BYTES = 2097152;
 
 	/** Gibt die einzige Instanz zurück und registriert die AJAX-Endpunkte. */
 	public static function instance(): self {
@@ -80,7 +80,7 @@ final class MGD_WP_SEO_Social_Fetcher {
 
 			$body = wp_remote_retrieve_body( $response );
 			if ( strlen( $body ) >= self::MAX_RESPONSE_BYTES ) {
-				wp_send_json_error( array( 'message' => 'Die Seite überschreitet die Analysegrenze von 256 KiB. Es werden keine unvollständigen Ergebnisse ausgegeben.' ), 422 );
+				wp_send_json_error( array( 'message' => 'Die Seite überschreitet die Analysegrenze von 2 MiB. Es werden keine unvollständigen Ergebnisse ausgegeben.' ), 422 );
 			}
 			$metadata = $this->extract_metadata( $body );
 			$metadata['audit'] = MGD_WP_SEO_Page_Analyzer::analyze( $body );
