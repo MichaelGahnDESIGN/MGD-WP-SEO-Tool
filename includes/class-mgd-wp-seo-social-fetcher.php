@@ -55,7 +55,7 @@ final class MGD_WP_SEO_Social_Fetcher {
 			wp_send_json_error( array( 'message' => __( 'Bitte gib eine öffentliche HTTPS-URL ohne Anmeldung oder Sonderport ein.', 'mgd-wp-seo-tool' ) ), 400 );
 		}
 
-		$cache_key = 'mgd_wp_seo_og_' . sha1( $url );
+		$cache_key = 'mgd_wp_seo_v2_' . sha1( $url );
 		$metadata = get_transient( $cache_key );
 		if ( ! is_array( $metadata ) ) {
 			$response = wp_safe_remote_get(
@@ -78,7 +78,14 @@ final class MGD_WP_SEO_Social_Fetcher {
 				wp_send_json_error( array( 'message' => __( 'Die URL liefert keine HTML-Seite für eine Social-Vorschau.', 'mgd-wp-seo-tool' ) ), 422 );
 			}
 
-			$metadata = $this->extract_metadata( wp_remote_retrieve_body( $response ) );
+			$body = wp_remote_retrieve_body( $response );
+			if ( strlen( $body ) >= self::MAX_RESPONSE_BYTES ) {
+				wp_send_json_error( array( 'message' => 'Die Seite überschreitet die Analysegrenze von 256 KiB. Es werden keine unvollständigen Ergebnisse ausgegeben.' ), 422 );
+			}
+			$metadata = $this->extract_metadata( $body );
+			$metadata['audit'] = MGD_WP_SEO_Page_Analyzer::analyze( $body );
+			$metadata['audit']['status'] = 200;
+			$metadata['audit']['header_robots'] = $this->clean_text( (string) wp_remote_retrieve_header( $response, 'x-robots-tag' ), 320 );
 			set_transient( $cache_key, $metadata, 12 * HOUR_IN_SECONDS );
 		}
 

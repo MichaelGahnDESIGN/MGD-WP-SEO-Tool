@@ -65,3 +65,12 @@ Das Release-Paket wird lokal mit folgendem Befehl erzeugt:
 Es landet unter `releases/` zusammen mit einer SHA-256-Prüfsumme. Das Paket
 enthält ausschließlich die benötigten Plugin-Dateien, keine Git-Daten, lokalen
 Arbeitsdateien, Tests oder Sicherungen.
+# Werkzeuge ab 0.2.0
+
+Sechs Tabs: Snippet, Social, URL-Audit, Struktur & Schema, Bilder & Links und Indexierung. Die gemeinsame URL-Leiste ist immer erreichbar. Pfeiltasten, Pos1 und Ende bedienen die Tab-Auswahl.
+
+Die Analyse liest initiales HTML und den allgemeinen X-Robots-Tag. JavaScript-Inhalte, robots.txt, Sitemap, Linkziel-Erreichbarkeit und tatsächliche Google-Indexierung werden nicht geprüft. JSON-LD-Typen werden erkannt, aber nicht vollständig validiert. Leere Alt-Texte können bei dekorativen Bildern korrekt sein. Es werden keine Seiten automatisch geändert.
+
+Noch auf der Roadmap: Schema-Generator, plattformspezifische Social-Ansichten und WordPress-weite Analysen.
+
+Lokaler Funktionstest: `php tests/analyzer.php`. Vorschau: PHP-Server starten und `/tools/preview.php` öffnen. Echte AJAX-Abrufe benötigen WordPress; die lokale UI-Vorschau stellt diese nicht bereit.

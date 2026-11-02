@@ -28,3 +28,8 @@
 - Keine Server-Speicherung von Tool-Eingaben, keine AJAX-Endpunkte und keine Tracking-Skripte.
 - Updateprüfung akzeptiert ausschließlich semantisch versionierte Releases und ein exakt benanntes ZIP-Asset des fest hinterlegten GitHub-Repositories.
 - Keine Tokens oder Zugangsdaten im Plugin.
+# 0.2.0
+
+- Sechs zugängliche Tabs mit gemeinsamer URL-Leiste und responsiver Oberfläche.
+- HTML-Analyse: Titel, Beschreibung, H1, Sprache, Viewport, Canonical, Robots, JSON-LD-Typen, Bilder und Links.
+- Ablehnung unvollständiger Antworten an der Größenobergrenze.

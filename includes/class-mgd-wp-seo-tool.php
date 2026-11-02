@@ -73,11 +73,12 @@ final class MGD_WP_SEO_Tool {
 				'socialNonce' => wp_create_nonce( 'mgd_wp_seo_social_preview' ),
 			)
 		);
+		wp_enqueue_script( 'mgd-seo-workbench', MGD_WP_SEO_TOOL_URL . 'assets/js/seo-workbench.js', array( 'mgd-wp-seo-tool' ), MGD_WP_SEO_TOOL_VERSION, true );
 	}
 
 	/**
-	 * Rendert das Tool. Es gibt keine AJAX-Route und keine Datenbankoperation:
-	 * Titel, Beschreibung und URL verlassen den Browser nicht.
+	 * Rendert das Tool. Entwürfe bleiben lokal; bewusst gestartete URL-Analysen
+	 * verwenden den begrenzten AJAX-Abruf und einen flüchtigen Ergebnis-Cache.
 	 *
 	 * @param array<string, mixed> $attributes Shortcode-Attribute.
 	 */

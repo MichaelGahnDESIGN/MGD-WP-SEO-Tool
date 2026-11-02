@@ -14,11 +14,18 @@ defined( 'ABSPATH' ) || exit;
 <section class="mgd-seo-tool" id="<?php echo esc_attr( $instance_id ); ?>" data-default-url="<?php echo esc_attr( $default_url ); ?>" aria-labelledby="<?php echo esc_attr( $instance_id ); ?>-title">
 	<div class="mgd-seo-tool__intro">
 		<p class="mgd-seo-tool__eyebrow"><?php esc_html_e( 'SEO-Werkzeug', 'mgd-wp-seo-tool' ); ?></p>
-		<h2 id="<?php echo esc_attr( $instance_id ); ?>-title"><?php esc_html_e( 'Google-Snippet prüfen', 'mgd-wp-seo-tool' ); ?></h2>
-		<p><?php esc_html_e( 'Formuliere einen Meta-Titel und eine Meta-Beschreibung. Die Prüfung läuft in deinem Browser. Nur wenn du Socialdaten lädst, ruft die Website die eingegebene URL ab.', 'mgd-wp-seo-tool' ); ?></p>
+		<h2 id="<?php echo esc_attr( $instance_id ); ?>-title"><?php esc_html_e( 'Deine Seite. Klarer im Blick.', 'mgd-wp-seo-tool' ); ?></h2>
+		<p><?php esc_html_e( 'Gestalte dein Suchergebnis, prüfe die Vorschau beim Teilen und entdecke technische SEO-Hinweise. Entwürfe bleiben auf deinem Gerät. Eine URL wird erst abgerufen, wenn du die Analyse oder Social-Vorschau startest.', 'mgd-wp-seo-tool' ); ?></p>
 	</div>
 
-	<div class="mgd-seo-tool__grid">
+	<?php $tabs = array( 'snippet' => 'Snippet', 'social' => 'Social', 'audit' => 'URL-Audit', 'schema' => 'Struktur & Schema', 'media' => 'Bilder & Links', 'index' => 'Indexierung' ); ?>
+	<div data-shared-url class="mgd-seo-tool__shared-url"></div>
+	<div class="mgd-seo-tool__tabs" role="tablist" aria-label="SEO-Werkzeuge" hidden>
+		<?php foreach ( $tabs as $tab => $label ) : ?>
+			<button type="button" role="tab" id="<?php echo esc_attr( $instance_id . '-tab-' . $tab ); ?>" aria-controls="<?php echo esc_attr( $instance_id . '-panel-' . $tab ); ?>" aria-selected="<?php echo 'snippet' === $tab ? 'true' : 'false'; ?>" tabindex="<?php echo 'snippet' === $tab ? '0' : '-1'; ?>" data-tab="<?php echo esc_attr( $tab ); ?>"><?php echo esc_html( $label ); ?></button>
+		<?php endforeach; ?>
+	</div>
+	<div class="mgd-seo-tool__grid" data-panel="snippet" id="<?php echo esc_attr( $instance_id ); ?>-panel-snippet" role="tabpanel" aria-labelledby="<?php echo esc_attr( $instance_id ); ?>-tab-snippet">
 		<div class="mgd-seo-tool__editor">
 			<div class="mgd-seo-tool__field">
 				<label for="<?php echo esc_attr( $instance_id ); ?>-title-input"><?php esc_html_e( 'Meta-Titel', 'mgd-wp-seo-tool' ); ?></label>
@@ -80,4 +87,17 @@ defined( 'ABSPATH' ) || exit;
 			<ul class="mgd-seo-tool__checks" data-checks aria-live="polite"></ul>
 		</div>
 	</div>
+	<?php foreach ( array_slice( $tabs, 1, null, true ) as $tab => $label ) : ?>
+	<section class="mgd-seo-tool__panel" data-panel="<?php echo esc_attr( $tab ); ?>" id="<?php echo esc_attr( $instance_id . '-panel-' . $tab ); ?>" role="tabpanel" aria-labelledby="<?php echo esc_attr( $instance_id . '-tab-' . $tab ); ?>" hidden>
+		<h3><?php echo esc_html( $label ); ?></h3>
+		<?php if ( 'social' === $tab ) : ?>
+		<p>So können Titel, Beschreibung und Bild beim Teilen wirken. Lade die Socialdaten über die URL-Leiste. Die tatsächliche Darstellung hängt von der Plattform ab.</p>
+		<div data-social-slot></div>
+		<?php else : ?>
+		<p>Prüfe die URL aus der Leiste oben. Die Analyse liest das ausgelieferte HTML. Inhalte, die erst JavaScript erzeugt, werden nicht erfasst. Ergebnisse können bis zu 12 Stunden alt sein.</p>
+		<button class="mgd-seo-tool__button" type="button" data-action="analyze">URL analysieren</button>
+		<div data-audit-output="<?php echo esc_attr( $tab ); ?>" role="status" aria-live="polite"><p>Noch keine Analyse. Trage oben eine URL ein und starte die Prüfung.</p></div>
+		<?php endif; ?>
+	</section>
+	<?php endforeach; ?>
 </section>

@@ -40,3 +40,8 @@ an den Server; die Zielseite erhält dessen Server-IP. Wird ein OG-Bild dargeste
 lädt der Browser es direkt von der Zielseite; diese sieht dann die Besucher-IP.
 Die Updateprüfung übermittelt keine Tool-Inhalte und keine Anmeldedaten; wie bei
 jedem Abruf eines GitHub-Releases erhält GitHub die Server-IP der Website.
+# HTML-Analyse 0.2.0
+
+Der bestehende geschützte Social-Abruf liefert zusätzlich kurze, bereinigte Textwerte und Zähler. Keine Skriptausführung, keine verknüpften Ressourcen. Fremde Werte werden nur über Textknoten ausgegeben. Der zwölfstündige Cache enthält zusätzlich SEO-Metadaten und Überschriften. Antworten an der 256-KiB-Grenze werden abgelehnt. Redirects bleiben gesperrt; die endgültige HTTPS-Adresse ist erforderlich.
+
+Gezielte Quellprüfung durchgeführt, kein vollständiges Audit. DNS-/HTTP-Verhalten und AJAX-Integration müssen vor Live-Einsatz in einer WordPress-Testumgebung verifiziert werden.

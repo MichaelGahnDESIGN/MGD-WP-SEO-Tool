@@ -27,6 +27,7 @@ rsync -a \
   --exclude '.DS_Store' \
   --exclude 'tools/' \
   --exclude 'tests/' \
+  --exclude 'docs/' \
   "$project_dir/" "$work_dir/$plugin_slug/"
 
 rm -f "$package" "$package.sha256"
