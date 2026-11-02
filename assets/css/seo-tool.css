@@ -48,6 +48,9 @@
 .mgd-seo-tool__audit-list { list-style: none; padding: 0; margin: 1.5rem 0; }
 .mgd-seo-tool__audit-list li { padding: .9rem 0; border-bottom: 1px solid #d8dfe6; white-space: pre-line; overflow-wrap: anywhere; }
 .mgd-seo-tool__panel .mgd-seo-tool__preview-card--social { max-width: 480px; margin-top: 1rem; }
+.mgd-seo-tool__generator { border-top: 1px solid #d8dfe6; margin-top: 2rem; padding-top: 2rem; max-width: 48rem; }
+.mgd-seo-tool__generator label { display: block; font-weight: 600; margin: 1rem 0; }
+.mgd-seo-tool__generator .mgd-seo-tool__input { display: block; margin-top: .4rem; font-weight: 400; }
 .mgd-seo-tool { box-shadow: 0 8px 30px rgb(24 33 45 / 5%); font-optical-sizing: auto; line-height: 1.6; }
 .mgd-seo-tool__intro { background: #fafbfc; }
 .mgd-seo-tool__shared-url:empty { display: none; }

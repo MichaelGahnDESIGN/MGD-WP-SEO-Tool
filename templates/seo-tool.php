@@ -97,6 +97,24 @@ defined( 'ABSPATH' ) || exit;
 		<p>Prüfe die URL aus der Leiste oben. Die Analyse liest das ausgelieferte HTML. Inhalte, die erst JavaScript erzeugt, werden nicht erfasst. Ergebnisse können bis zu 12 Stunden alt sein.</p>
 		<button class="mgd-seo-tool__button" type="button" data-action="analyze">URL analysieren</button>
 		<div data-audit-output="<?php echo esc_attr( $tab ); ?>" role="status" aria-live="polite"><p>Noch keine Analyse. Trage oben eine URL ein und starte die Prüfung.</p></div>
+		<?php if ( 'schema' === $tab ) : ?>
+		<div class="mgd-seo-tool__generator" data-schema-generator>
+			<h3>Schema-Generator</h3>
+			<p>Erstelle strukturierte Daten zum Kopieren. Verwende nur Angaben, die auf der betreffenden Seite tatsächlich sichtbar sind. Prüfe vorhandene Schema-Daten, damit keine widersprüchlichen Einträge entstehen.</p>
+			<label>Typ <select class="mgd-seo-tool__input" data-schema="type"><option value="Organization">Organisation</option><option value="LocalBusiness">Lokales Unternehmen</option><option value="Article">Artikel</option></select></label>
+			<label>Name / Artikelüberschrift <input class="mgd-seo-tool__input" data-schema="name" maxlength="200" type="text"></label>
+			<label>Seiten-URL <input class="mgd-seo-tool__input" data-schema="url" type="url" placeholder="https://example.de/"></label>
+			<label>Bild- oder Logo-URL (optional) <input class="mgd-seo-tool__input" data-schema="image" type="url" placeholder="https://example.de/bild.jpg"></label>
+			<div data-schema-address hidden><label>Straße und Hausnummer <input class="mgd-seo-tool__input" data-schema="street" type="text"></label><label>Postleitzahl <input class="mgd-seo-tool__input" data-schema="postal" type="text"></label><label>Ort <input class="mgd-seo-tool__input" data-schema="city" type="text"></label><label>Ländercode (z. B. DE) <input class="mgd-seo-tool__input" data-schema="country" type="text" maxlength="2"></label></div>
+			<div data-schema-article hidden><label>Autor <input class="mgd-seo-tool__input" data-schema="author" type="text"></label><label>Veröffentlicht am <input class="mgd-seo-tool__input" data-schema="date" type="date"></label></div>
+			<button type="button" class="mgd-seo-tool__button mgd-seo-tool__button--primary" data-schema-create>JSON-LD erstellen</button>
+			<label>Ergebnis <textarea class="mgd-seo-tool__input" data-schema-result rows="12" readonly></textarea></label>
+			<button type="button" class="mgd-seo-tool__button" data-schema-copy>Code kopieren</button><p role="status" data-schema-status></p>
+			<p>Das Ergebnis ist ein Entwurf, keine Garantie für eine Darstellung bei Google. Teste die veröffentlichte Seite mit dem <a href="https://search.google.com/test/rich-results" target="_blank" rel="noopener noreferrer">Rich Results Test</a>.</p>
+		</div>
+		<div class="mgd-seo-tool__generator" data-utm-generator><h3>Kampagnenlink erstellen</h3><p>Ergänze Messparameter für deine Kampagne. Keine personenbezogenen oder vertraulichen Daten eingeben.</p>
+		<label>Ziel-URL <input class="mgd-seo-tool__input" data-utm="url" type="url" placeholder="https://example.de/"></label><label>Quelle <input class="mgd-seo-tool__input" data-utm="source" type="text" placeholder="newsletter"></label><label>Medium <input class="mgd-seo-tool__input" data-utm="medium" type="text" placeholder="email"></label><label>Kampagne <input class="mgd-seo-tool__input" data-utm="campaign" type="text" placeholder="herbstaktion"></label><button type="button" class="mgd-seo-tool__button" data-utm-create>Link erstellen</button><label>Ergebnis <input class="mgd-seo-tool__input" data-utm-result readonly></label><button type="button" class="mgd-seo-tool__button" data-utm-copy>Link kopieren</button><p role="status" data-utm-status></p></div>
+		<?php endif; ?>
 		<?php endif; ?>
 	</section>
 	<?php endforeach; ?>

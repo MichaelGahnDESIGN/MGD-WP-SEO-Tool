@@ -74,6 +74,7 @@ final class MGD_WP_SEO_Tool {
 			)
 		);
 		wp_enqueue_script( 'mgd-seo-workbench', MGD_WP_SEO_TOOL_URL . 'assets/js/seo-workbench.js', array( 'mgd-wp-seo-tool' ), MGD_WP_SEO_TOOL_VERSION, true );
+		wp_enqueue_script( 'mgd-seo-generators', MGD_WP_SEO_TOOL_URL . 'assets/js/seo-generators.js', array( 'mgd-seo-workbench' ), MGD_WP_SEO_TOOL_VERSION, true );
 	}
 
 	/**

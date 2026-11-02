@@ -34,3 +34,8 @@
 - HTML-Analyse: Titel, Beschreibung, H1, Sprache, Viewport, Canonical, Robots, JSON-LD-Typen, Bilder und Links.
 - Ablehnung unvollständiger Antworten an der Größenobergrenze.
 - HTML-Obergrenze von 2 MiB, damit auch größere Divi-Seiten vollständig analysiert werden können.
+# 0.3.0
+
+- Lokaler JSON-LD-Generator für Organisationen, lokale Unternehmen und Artikel.
+- Kampagnenlink-Generator mit UTM-Parametern; vorhandene Parameter und Anker bleiben erhalten.
+- Ergebnisse werden nach Änderungen an den Eingaben zurückgesetzt, um veralteten Code zu vermeiden.
