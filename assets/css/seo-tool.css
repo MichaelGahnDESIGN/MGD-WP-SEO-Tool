@@ -43,6 +43,15 @@
 .mgd-seo-tool__serp-url, .mgd-seo-tool__social-domain { color: #277333; font-size: .82rem; margin: 0 0 .3rem; overflow-wrap: anywhere; }
 .mgd-seo-tool__serp-title { color: #1a0dab; font-size: 1.25rem; line-height: 1.3; margin: 0 0 .3rem; }
 .mgd-seo-tool__serp-description, .mgd-seo-tool__social-description { color: #4d5156; font-size: .9rem; line-height: 1.5; margin: 0; }
+.mgd-seo-tool__preview-options { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: .75rem; }
+.mgd-seo-tool__preview-options label { color: var(--mgd-seo-ink); font-size: .85rem; font-weight: 600; }
+.mgd-seo-tool__preview-options select { display: block; margin-top: .3rem; padding: .5rem; }
+.mgd-seo-tool__preview-note { margin: .65rem 0 1rem; }
+.mgd-seo-tool__serp[data-preview-device-view="mobile"] { max-width: 340px; margin-inline: auto; }
+.mgd-seo-tool__serp-title { overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+.mgd-seo-tool__serp-description { display: -webkit-box; -webkit-box-orient: vertical; -webkit-line-clamp: 2; line-clamp: 2; overflow: hidden; overflow-wrap: anywhere; }
+.mgd-seo-tool__serp[data-preview-engine-view="bing"] .mgd-seo-tool__serp-title { color: #001ba0; }
+.mgd-seo-tool__serp[data-preview-engine-view="bing"] .mgd-seo-tool__serp-url { color: #42643d; }
 .mgd-seo-tool__social-media { background: #dde4ea; border-radius: 8px; margin-bottom: .85rem; overflow: hidden; }
 .mgd-seo-tool__social-placeholder { background: linear-gradient(135deg, #2f4d6b, #8eabc1); height: 148px; }
 .mgd-seo-tool__social-image { display: block; height: 148px; object-fit: cover; width: 100%; }

@@ -82,6 +82,16 @@
 		};
 		let socialData = null;
 		let socialRequest = 0;
+		const preview = root.querySelector( '.mgd-seo-tool__serp' );
+		const previewEngine = root.querySelector( '[data-preview-engine]' );
+		const previewDevice = root.querySelector( '[data-preview-device]' );
+		// Die Darstellung ist eine Näherung; Suchmaschinen legen keine feste Breite fest.
+		function updatePreviewMode() {
+			preview.dataset.previewEngineView = previewEngine.value;
+			preview.dataset.previewDeviceView = previewDevice.value;
+		}
+		previewEngine.addEventListener( 'change', updatePreviewMode );
+		previewDevice.addEventListener( 'change', updatePreviewMode );
 		const dialog = root.querySelector( '[data-info-dialog]' );
 		const info = {
 			title: [ 'Meta-Titel', 'Der Titel beschreibt den Inhalt einer Seite. Formuliere ihn einzigartig, konkret und gut lesbar. Wichtige Begriffe gehören nach vorn, wenn sie natürlich passen. Ein kurzer Markenname kann helfen. Vermeide Wiederholungen und Keyword-Listen.', '60 Zeichen sind ein praktischer Richtwert, keine Google-Grenze. Je nach Zeichenbreite und Gerät kann die Anzeige früher oder später enden. Google kann einen anderen Titel auswählen.', 'https://developers.google.com/search/docs/appearance/title-link?hl=de' ],

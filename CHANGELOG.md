@@ -1,5 +1,11 @@
 # Changelog
 
+## 0.4.0 - 2026-11-03
+
+- Suchvorschau für Google und Bing mit Umschaltung zwischen Desktop und Mobil.
+- Lange Titel und Beschreibungen werden platzabhängig mit Auslassungspunkten dargestellt; die Eingaben bleiben vollständig.
+- Die Vorschau weist auf die abweichende tatsächliche Darstellung durch Suchmaschinen hin.
+
 ## 0.1.1 - 2026-10-28
 
 ### Neu

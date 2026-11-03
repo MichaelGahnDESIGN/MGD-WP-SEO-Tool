@@ -38,7 +38,7 @@ Die Funktion **„Socialdaten laden“** ist ein bewusster, optionaler Abruf: Si
 
 Zum Schutz der WordPress-Installation sind nur öffentliche HTTPS-Ziele ohne Anmeldung und ohne Sonderport zugelassen. Interne, private und reservierte DNS-Adressen, Weiterleitungen sowie zu große oder nicht als HTML deklarierte Antworten werden abgewiesen. Abrufe sind pro Besucher kurzzeitig begrenzt und Ergebnisse für dieselbe URL werden für zwölf Stunden zwischengespeichert.
 
-Die Längen-Hinweise sind lediglich Darstellungsrichtwerte. Suchmaschinen bestimmen die endgültige Anzeige dynamisch; das Tool verspricht deshalb weder Platzierung noch eine unveränderte Snippet-Ausgabe.
+Die Suchvorschau bietet Google und Bing sowie Desktop und Mobil. Titel und Beschreibung werden entsprechend dem verfügbaren Platz visuell mit Auslassungspunkten gekürzt; Eingabe und kopierte Daten bleiben vollständig. Die Ansicht ist eine Annäherung, keine exakte Nachbildung. Die Längen-Hinweise sind lediglich Darstellungsrichtwerte. Suchmaschinen bestimmen die endgültige Anzeige dynamisch; das Tool verspricht deshalb weder Platzierung noch eine unveränderte Snippet-Ausgabe.
 
 ## Entwicklung und Prüfung
 

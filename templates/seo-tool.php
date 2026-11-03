@@ -63,8 +63,13 @@ defined( 'ABSPATH' ) || exit;
 
 		<div class="mgd-seo-tool__previews">
 			<div class="mgd-seo-tool__preview-card">
-				<p class="mgd-seo-tool__preview-label"><?php esc_html_e( 'Google-Vorschau', 'mgd-wp-seo-tool' ); ?></p>
-				<div class="mgd-seo-tool__serp" aria-live="polite">
+				<p class="mgd-seo-tool__preview-label"><?php esc_html_e( 'Suchvorschau', 'mgd-wp-seo-tool' ); ?></p>
+				<div class="mgd-seo-tool__preview-options">
+					<label>Suchmaschine <select class="mgd-seo-tool__input" data-preview-engine><option value="google">Google</option><option value="bing">Bing</option></select></label>
+					<label>Darstellung <select class="mgd-seo-tool__input" data-preview-device><option value="desktop">Desktop</option><option value="mobile">Mobil</option></select></label>
+				</div>
+				<p class="mgd-seo-tool__hint mgd-seo-tool__preview-note">Eine Annäherung: Suchmaschinen passen Texte und Darstellung je nach Suche und Gerät an.</p>
+				<div class="mgd-seo-tool__serp" data-preview-engine-view="google" data-preview-device-view="desktop" aria-live="polite">
 					<p class="mgd-seo-tool__serp-url" data-preview-url><?php echo esc_html( $default_url ); ?></p>
 					<p class="mgd-seo-tool__serp-title" data-preview-title><?php esc_html_e( 'Dein Seitentitel erscheint hier', 'mgd-wp-seo-tool' ); ?></p>
 					<p class="mgd-seo-tool__serp-description" data-preview-description><?php esc_html_e( 'Deine Meta-Beschreibung erscheint hier als kurze Zusammenfassung der Seite.', 'mgd-wp-seo-tool' ); ?></p>
