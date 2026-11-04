@@ -1,5 +1,9 @@
 # Changelog
 
+## 0.4.1 - 2026-11-04
+
+- Mobilansicht: Die Suchvorschau bleibt auch bei langen Titeln innerhalb des verfügbaren Platzes.
+
 ## 0.4.0 - 2026-11-03
 
 - Suchvorschau für Google und Bing mit Umschaltung zwischen Desktop und Mobil.

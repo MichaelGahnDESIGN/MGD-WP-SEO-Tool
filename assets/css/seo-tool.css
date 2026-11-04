@@ -37,8 +37,8 @@
 .mgd-seo-tool__button--compact { align-self: stretch; font-size: .9rem; padding-inline: .85rem; white-space: nowrap; }
 .mgd-seo-tool__button--quiet { border-color: transparent; color: var(--mgd-seo-muted); }
 .mgd-seo-tool__status { color: var(--mgd-seo-muted); min-height: 1.5em; margin: .8rem 0 0; }
-.mgd-seo-tool__previews { align-content: start; display: grid; gap: 1rem; }
-.mgd-seo-tool__preview-card { background: var(--mgd-seo-soft); border: 1px solid #dde5f0; border-radius: 14px; padding: 1rem; }
+.mgd-seo-tool__previews { align-content: start; display: grid; gap: 1rem; grid-template-columns: minmax(0, 1fr); min-width: 0; }
+.mgd-seo-tool__preview-card { background: var(--mgd-seo-soft); border: 1px solid #dde5f0; border-radius: 14px; min-width: 0; padding: 1rem; }
 .mgd-seo-tool__serp { background: #fff; border-radius: 8px; padding: 1.15rem; }
 .mgd-seo-tool__serp-url, .mgd-seo-tool__social-domain { color: #277333; font-size: .82rem; margin: 0 0 .3rem; overflow-wrap: anywhere; }
 .mgd-seo-tool__serp-title { color: #1a0dab; font-size: 1.25rem; line-height: 1.3; margin: 0 0 .3rem; }
