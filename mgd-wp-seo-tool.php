@@ -1,8 +1,8 @@
 <?php
 /**
  * Plugin Name: MGD WP-SEO-Tool
- * Plugin URI: https://github.com/MichaelGahnDESIGN/MGD-WP-SEO-Tool
- * Description: Ein datensparsames Werkzeug für Meta-Titel, Meta-Beschreibungen und Suchvorschauen – direkt innerhalb von WordPress nutzbar.
+ * Plugin URI: https://theme.michael-gahn.de/plugins/mgd-wp-seo-tool
+ * Description: Meta-Titel und Meta-Beschreibung prüfen, mit Google- und Social-Vorschau.
  * Version: 0.4.1
  * Requires at least: 6.5
  * Requires PHP: 8.1
@@ -10,10 +10,9 @@
  * Author URI: https://michael-gahn.de/
  * Text Domain: mgd-wp-seo-tool
  * Update URI: https://github.com/MichaelGahnDESIGN/MGD-WP-SEO-Tool
- *
- * Das Plugin verarbeitet Eingaben ausschließlich im Browser. Nur der bewusst
- * ausgelöste Social-Abruf fragt die eingegebene öffentliche HTTPS-URL ab.
  */
+
+// Update URI bleibt bis 2.1.1 (alter Updater), dann Baukasten
 
 defined( 'ABSPATH' ) || exit;
 
