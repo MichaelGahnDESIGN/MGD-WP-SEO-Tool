@@ -46,15 +46,11 @@ Das Plugin setzt WordPress 6.5 und PHP 8.1 voraus. Vor einer Live-Auslieferung s
 
 ## Updates und Releases
 
-WordPress prüft Updates ausschließlich über öffentliche Releases von
-[`MichaelGahnDESIGN/MGD-WP-SEO-Tool`](https://github.com/MichaelGahnDESIGN/MGD-WP-SEO-Tool).
-Die Prüfung akzeptiert nur ein semantisch versioniertes Release sowie das exakt
-passende Paket `mgd-wp-seo-tool-X.Y.Z.zip`. Bei nicht erreichbaren oder
-ungültigen Daten bleibt die installierte Version unverändert.
+Updates und Einstellungen gibt es unter **MGD Tools** (Menü im WordPress-Admin).
+Dort steht, ob eine neue Version da ist, und der Knopf **Jetzt prüfen** sucht
+selbst nach Updates. Der Knopf installiert nichts von allein.
 
-Vor einem Update empfiehlt sich eine geprüfte Sicherung, beispielsweise mit
-UpdraftPlus. Ein manueller Check ist über **Dashboard → Aktualisierungen →
-MGD-Updates jetzt prüfen** möglich; dieser Knopf installiert kein Update.
+Vor einem Update ist eine Sicherung sinnvoll, zum Beispiel mit UpdraftPlus.
 
 Das Release-Paket wird lokal mit folgendem Befehl erzeugt:
 

@@ -1,5 +1,10 @@
 # Changelog
 
+## Unveröffentlicht (kommt mit 2.1.1)
+
+- Gemeinsame Verwaltung unter MGD Tools, einheitliche Darstellung, Icons.
+- Alter Update-Code und alte Admin-Tools entfernt.
+
 ## 0.4.1 - 2026-11-04
 
 - Mobilansicht: Die Suchvorschau bleibt auch bei langen Titeln innerhalb des verfügbaren Platzes.
