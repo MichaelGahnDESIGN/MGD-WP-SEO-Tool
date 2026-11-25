@@ -14,7 +14,8 @@ if [[ -z "$version" ]]; then
 fi
 
 release_dir="$project_dir/releases"
-work_dir="$project_dir/.tmp/release-build/$version"
+# Arbeitsordner lokal (Netzlaufwerk ignoriert chmod)
+work_dir="$(mktemp -d)/$version"
 package="$release_dir/$plugin_slug-$version.zip"
 
 rm -rf "$work_dir"
@@ -34,6 +35,10 @@ rsync -a \
   --exclude '.playwright-cli/' \
   --exclude '.env*' \
   "$project_dir/" "$work_dir/$plugin_slug/"
+
+# Rechte vereinheitlichen (644/755) sonst 403 bei Icons
+find "$work_dir/$plugin_slug" -type d -exec chmod 755 {} +
+find "$work_dir/$plugin_slug" -type f -exec chmod 644 {} +
 
 rm -f "$package" "$package.sha256"
 (

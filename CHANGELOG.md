@@ -1,6 +1,6 @@
 # Changelog
 
-## Unveröffentlicht (kommt mit 2.1.1)
+## [2.1.1] - 2026-11-25
 
 - Gemeinsame Verwaltung unter MGD Tools, einheitliche Darstellung, Icons.
 - Alter Update-Code und alte Admin-Tools entfernt.
