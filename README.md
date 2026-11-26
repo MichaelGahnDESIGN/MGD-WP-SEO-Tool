@@ -44,11 +44,13 @@ Die Suchvorschau bietet Google und Bing sowie Desktop und Mobil. Titel und Besch
 
 Das Plugin setzt WordPress 6.5 und PHP 8.1 voraus. Vor einer Live-Auslieferung sollten PHP-Syntax, WordPress-Coding-Standards und die Darstellung in der konkreten Divi-Installation geprüft werden.
 
-## Updates und Releases
+## MGD Tools: Updates, An/Aus und Lizenz
 
-Updates und Einstellungen gibt es unter **MGD Tools** (Menü im WordPress-Admin).
-Dort steht, ob eine neue Version da ist, und der Knopf **Jetzt prüfen** sucht
-selbst nach Updates. Der Knopf installiert nichts von allein.
+Alles zum Plugin findest Du im WordPress-Menü unter **MGD Tools**.
+
+1. **Übersicht und Updates:** Hier siehst Du, ob eine neue Version da ist. Der Knopf **Jetzt prüfen** sucht selbst nach Updates. Er installiert nichts von allein.
+2. **Aktivieren und Deaktivieren:** Jedes MGD-Plugin hat dort einen Schalter. So kannst Du das WP-SEO-Tool an- oder ausschalten, ohne die Plugin-Liste zu öffnen.
+3. **Lizenz:** Dort steht je Plugin, ob es Free oder Pro ist und ob die Lizenz gültig ist. Das WP-SEO-Tool ist gratis und braucht keinen Schlüssel.
 
 Vor einem Update ist eine Sicherung sinnvoll, zum Beispiel mit UpdraftPlus.
 
