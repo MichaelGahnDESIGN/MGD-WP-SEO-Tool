@@ -3,7 +3,7 @@
  * Plugin Name: MGD WP-SEO-Tool
  * Plugin URI: https://theme.michael-gahn.de/plugins/plugin-wp-seo-tool-wordpress
  * Description: Meta-Titel und Meta-Beschreibung prüfen, mit Google- und Social-Vorschau.
- * Version: 2.1.4
+ * Version: 2.2.0
  * Requires at least: 6.5
  * Requires PHP: 8.1
  * Author: Michael Gahn DESIGN
@@ -13,7 +13,7 @@
 
 defined( 'ABSPATH' ) || exit;
 
-define( 'MGD_WP_SEO_TOOL_VERSION', '2.1.4' );
+define( 'MGD_WP_SEO_TOOL_VERSION', '2.2.0' );
 define( 'MGD_WP_SEO_TOOL_FILE', __FILE__ );
 define( 'MGD_WP_SEO_TOOL_DIR', plugin_dir_path( __FILE__ ) );
 define( 'MGD_WP_SEO_TOOL_URL', plugin_dir_url( __FILE__ ) );
